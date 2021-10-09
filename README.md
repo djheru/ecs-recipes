@@ -127,3 +127,17 @@ nest generate resource recipes
 ```
 npm install --save @nestjs/typeorm typeorm pg
 ```
+
+2. Define entities (e.g. ./src/recipes/entities/recipe.entity.ts)
+
+3. Generate initial migrations
+
+```
+typeorm migration:generate -n InitialMigration
+```
+
+4. Run migration
+
+```
+typeorm migration:run
+```

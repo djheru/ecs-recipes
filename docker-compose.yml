@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  recipes-pg:
+    container_name: recipes-pg
+    image: postgres:10.7
+    networks:
+      - recipes-net
+    environment:
+      POSTGRES_PASSWORD: ${PGPASSWORD}
+      POSTGRES_USER: ${PGUSER}
+      POSTGRES_DB: ${PGDATABASE}
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    volumes:
+      - recipes-pgdata:/var/lib/postgresql/data
+
+networks:
+  recipes-net:
+volumes:
+  recipes-pgdata:
