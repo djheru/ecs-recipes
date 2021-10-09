@@ -7,13 +7,7 @@ export class Instruction {
   id: number;
 
   @Column()
-  amount: string;
-
-  @Column()
-  unit: string;
-
-  @Column()
-  description: string;
+  details: string;
 
   @ManyToOne(() => Recipe, (recipe) => recipe.instructions)
   recipe: Recipe;

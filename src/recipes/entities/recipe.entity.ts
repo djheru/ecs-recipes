@@ -1,4 +1,13 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  VersionColumn,
+} from 'typeorm';
 import { Ingredient } from './ingredient.entity';
 import { Instruction } from './instruction.entity';
 
@@ -16,9 +25,25 @@ export class Recipe {
   @Column()
   author: string;
 
-  @OneToMany(() => Ingredient, (ingredient) => ingredient.recipe)
+  @OneToMany(() => Ingredient, (ingredient) => ingredient.recipe, {
+    cascade: true,
+  })
   ingredients: Ingredient[];
 
-  @OneToMany(() => Instruction, (instruction) => instruction.recipe)
+  @OneToMany(() => Instruction, (instruction) => instruction.recipe, {
+    cascade: true,
+  })
   instructions: Instruction[];
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
+
+  @DeleteDateColumn({ type: 'timestamp' })
+  deletedAt: Date;
+
+  @VersionColumn()
+  version: number;
 }
