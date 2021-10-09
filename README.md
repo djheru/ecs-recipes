@@ -81,7 +81,7 @@ Boilerplate project for running a NestJS application in AWS ecosystem
 Contains the following:
 
 - REST API with NestJS
-- Database persistence with Typeorm
+- Database persistence with TypeORM
 - Authentication with Auth0
 - Infrastructure as Code with AWS CDK
 - AWS ECS service running the API in docker
@@ -119,3 +119,11 @@ nest generate resource recipes
 ```
 
 2. Test out the boilerplate endpoints (e.g. GET /recipes, GET /recipes/1, PATCH /recipes/1 etc)
+
+## Add TypeORM
+
+1. Install the npm modules
+
+```
+npm install --save @nestjs/typeorm typeorm pg
+```
