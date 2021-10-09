@@ -110,4 +110,12 @@ nest new ecs-recipes
 
 3. Navigate to http://localhost:3000/
 
-##
+## Creating the Recipes resource
+
+1. Generate the boilerplate
+
+```
+nest generate resource recipes
+```
+
+2. Test out the boilerplate endpoints (e.g. GET /recipes, GET /recipes/1, PATCH /recipes/1 etc)
