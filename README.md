@@ -32,6 +32,13 @@
 $ npm install
 ```
 
+## Environment Setup
+
+```bash
+# Local environment variables
+$ cp .env.example .env
+```
+
 ## Running the app
 
 ```bash
@@ -160,3 +167,17 @@ This section assumes that you've already created an account
 - Enter `http://localhost:3000` as the value for the "Allowed Callback URLs" field
 - Click "Save Changes" to continue
 - Take note of the "Client ID", "Client Secret" and "Domain" fields
+
+### Add Auth0 Middleware
+
+- Install additional dependencies from NPM
+
+```bash
+$ npm i -S passport @nestjs/passport passport-jwt jwks-rsa
+```
+
+- Description of dependencies:
+  - `passport` - Express-compatible middleware
+  - `@nestjs/passport` - Passport utility module for the NestJS framework
+  - `passport-jwt` - Pasport strategy for authenticating with JSON Web Tokens (JWTs)
+  - `jwks-rsa` - A library to retrieve RSA signing keys from a JWKS (JSON Web Key Set) endpoint (to verify JWTs)
