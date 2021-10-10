@@ -12,16 +12,12 @@ import { RecipesService } from './recipes.service';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { User } from 'src/auth/user.decorator';
+import { IUser } from 'src/auth/user.interface';
 
 @Controller('recipes')
 export class RecipesController {
   constructor(private readonly recipesService: RecipesService) {}
-
-  @UseGuards(AuthGuard('jwt'))
-  @Post()
-  create(@Body() createRecipeDto: CreateRecipeDto) {
-    return this.recipesService.create(createRecipeDto);
-  }
 
   @Get()
   findAll() {
@@ -33,15 +29,25 @@ export class RecipesController {
     return this.recipesService.findOne(+id);
   }
 
+  @Post()
+  @UseGuards(AuthGuard('jwt'))
+  create(@Body() createRecipeDto: CreateRecipeDto, @User() user: IUser) {
+    return this.recipesService.create(createRecipeDto, user);
+  }
+
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
-  update(@Param('id') id: string, @Body() updateRecipeDto: UpdateRecipeDto) {
-    return this.recipesService.update(+id, updateRecipeDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateRecipeDto: UpdateRecipeDto,
+    @User() user: IUser,
+  ) {
+    return this.recipesService.update(+id, updateRecipeDto, user);
   }
 
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
-  remove(@Param('id') id: string) {
-    return this.recipesService.remove(+id);
+  remove(@Param('id') id: string, @User() user: IUser) {
+    return this.recipesService.remove(+id, user);
   }
 }

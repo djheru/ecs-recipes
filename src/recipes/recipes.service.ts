@@ -1,5 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IUser } from 'src/auth/user.interface';
 import { Repository } from 'typeorm';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
@@ -11,10 +16,11 @@ export class RecipesService {
     @InjectRepository(Recipe) private recipeRepository: Repository<Recipe>,
   ) {}
 
-  async create(createRecipeDto: CreateRecipeDto) {
+  async create(createRecipeDto: CreateRecipeDto, user: IUser) {
     try {
       const recipe = await this.recipeRepository.create({
         ...createRecipeDto,
+        author: user.sub,
       });
       return this.recipeRepository.save(recipe);
     } catch (e) {
@@ -53,17 +59,25 @@ export class RecipesService {
     }
   }
 
-  async update(id: number, updateRecipeDto: UpdateRecipeDto) {
+  async update(id: number, updateRecipeDto: UpdateRecipeDto, user: IUser) {
     try {
-      const existingRecipe = await this.recipeRepository.preload({
-        id: +id,
-        ...updateRecipeDto,
-      });
+      const existingRecipe = await this.recipeRepository.findOne(id);
 
       if (!existingRecipe) {
         throw new NotFoundException(`Recipe #${id} not found`);
       }
-      const result = await this.recipeRepository.save(existingRecipe);
+
+      if (existingRecipe.author !== user.sub) {
+        throw new UnauthorizedException(
+          `Recipe #${id} does not belong to this user`,
+        );
+      }
+
+      const result = await this.recipeRepository.save({
+        ...existingRecipe,
+        ...updateRecipeDto,
+        author: user.sub,
+      });
       return result;
     } catch (e) {
       console.log('Error updating recipe');
@@ -72,12 +86,20 @@ export class RecipesService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: number, user: IUser) {
     try {
       const existingRecipe = await this.recipeRepository.findOne(id);
+
       if (!existingRecipe) {
         throw new NotFoundException(`Recipe #${id} not found`);
       }
+
+      if (existingRecipe.author !== user.sub) {
+        throw new UnauthorizedException(
+          `Recipe #${id} does not belong to this user`,
+        );
+      }
+
       const result = await this.recipeRepository.softRemove(existingRecipe);
       return result;
     } catch (e) {
