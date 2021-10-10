@@ -141,3 +141,22 @@ typeorm migration:generate -n InitialMigration
 ```
 typeorm migration:run
 ```
+
+## Integrate with Auth0
+
+This section assumes that you've already created an account
+
+### Create new API
+
+- Select the "Applications" heading from the left-side navigation and navigate to the "APIs" page
+- Select the "Create API" button on the top right
+- Enter a name for the API, e.g. ECS Recipes
+- Enter a URI for the "Identifier" field. This doesn't need to be a real URI. It's just a logical identifier for the API (e.g. `https://ecs-recipes/`). This will be used as the OAuth "Audience" value
+- Ensure that "RS256" is selected for the Signing Algorithm, then press "Create"
+- Navigate to the "Applications" item on the left-side navigation and note the Application that was automatically created for you.
+  - This is a machine-to-machine application, convienient for testing
+  - We would create an additional application for, say, a React application to use for authentication
+- Click the "Settings" tab if it's not already selected
+- Enter `http://localhost:3000` as the value for the "Allowed Callback URLs" field
+- Click "Save Changes" to continue
+- Take note of the "Client ID", "Client Secret" and "Domain" fields
