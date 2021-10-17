@@ -29,7 +29,7 @@
 ## Installation
 
 ```bash
-$ npm install
+$ yarn install
 ```
 
 ## Environment Setup
@@ -106,7 +106,7 @@ Rest API to store recipes. Nothing too special.
 1. Install the NestJS CLI
 
 ```
-npm i -g @nestjs/cli
+yarn global add @nestjs/cli
 ```
 
 2. Scaffold out a starter application
@@ -132,7 +132,7 @@ nest generate resource recipes
 1. Install the npm modules
 
 ```
-npm install --save @nestjs/typeorm typeorm pg
+yarn add @nestjs/typeorm typeorm pg
 ```
 
 2. Define entities (e.g. ./src/recipes/entities/recipe.entity.ts)
@@ -173,7 +173,7 @@ This section assumes that you've already created an account
 - Install additional dependencies from NPM
 
 ```bash
-$ npm i -S passport @nestjs/passport passport-jwt jwks-rsa
+$ yarn add passport @nestjs/passport passport-jwt jwks-rsa
 ```
 
 - Description of dependencies:
