@@ -1,5 +1,12 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
+import {
+  ArrayMinSize,
+  IsArray,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { CreateIngredientDto } from './create-ingredient.dto';
 import { CreateInstructionDto } from './create-instruction.dto';
 
@@ -9,14 +16,17 @@ export class CreateRecipeDto {
   readonly title: string;
 
   @IsString()
+  @IsOptional()
   readonly description: string;
 
   @IsArray()
+  @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => CreateIngredientDto)
   readonly ingredients: CreateIngredientDto[];
 
   @IsArray()
+  @ArrayMinSize(1)
   @ValidateNested({ each: true })
   @Type(() => CreateInstructionDto)
   readonly instructions: CreateInstructionDto[];
