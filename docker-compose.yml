@@ -1,9 +1,30 @@
 version: '3.7'
 
 services:
+  recipes-api:
+    container_name: recipes-api
+    build:
+      context: ./
+      target: development
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 4000:4000
+    command: npm run start:dev
+    env_file:
+      - ./.env
+    environment:
+      - PGHOST=recipes-pg
+      - ADDRESS=0.0.0.0
+    networks:
+      - recipes-net
+    depends_on:
+      - recipes-pg
+
   recipes-pg:
     container_name: recipes-pg
-    image: postgres:10.7
+    image: postgres:12
     networks:
       - recipes-net
     environment:
