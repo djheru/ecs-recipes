@@ -194,7 +194,7 @@ export class EcsService extends Construct {
       domainName: this.domainName,
       domainZone: this.hostedZone,
       certificate: this.certificate,
-      circuitBreaker: { rollback: false },
+      circuitBreaker: { rollback: true },
       loadBalancerName: `${this.id}-lb`,
       protocol: ApplicationProtocol.HTTPS,
       redirectHTTP: true,
