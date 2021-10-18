@@ -1,11 +1,14 @@
 {
   "name": "ecs-recipes",
   "version": "0.1.0",
+  "license": "UNLICENSED",
   "bin": {
-    "infrastructure": "bin/ecs-recipes.js"
+    "infrastructure": "dist/bin/recipes.js"
   },
   "scripts": {
-    "build": "tsc",
+    "clean": "rm -rf dist",
+    "compile": "tsc",
+    "build": "yarn clean && yarn compile",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk"
