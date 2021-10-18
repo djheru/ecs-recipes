@@ -40,7 +40,7 @@ export const infrastructureProjectConfig = ({
         commands: [
           'echo Build started at `date`',
           `echo Beginning infrastructure build operations for "${id}"`,
-          'yarn i --silent',
+          'yarn install --silent',
           `yarn global add typescript aws-cdk@${CDK_VERSION}`,
         ],
       },
@@ -190,7 +190,7 @@ export const migrationProjectConfig = ({
         commands: [
           'echo Build started at `date`',
           `cd ${sourcePath}`,
-          'yarn i --silent',
+          'yarn install --silent',
           'yarn global add typeorm typescript --silent',
         ],
       },
