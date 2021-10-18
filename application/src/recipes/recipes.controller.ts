@@ -5,36 +5,79 @@ import { UpdateRecipeDto } from './dto/update-recipe.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { IUser } from 'src/auth/user.interface';
 import { User } from 'src/auth/user.decorator';
+import { LoggerService } from 'src/logger/logger.service';
 
 @Controller('recipes')
 export class RecipesController {
+  private readonly logger = new LoggerService(RecipesController.name, true);
+
   constructor(private readonly recipesService: RecipesService) {}
 
   @Get()
-  findAll() {
-    return this.recipesService.findAll();
+  async findAll() {
+    try {
+      this.logger.verbose('findAll');
+      const response = await this.recipesService.findAll();
+      this.logger.log({ response });
+      return response;
+    } catch (e) {
+      this.logger.error(e.message || e.stack || e);
+      throw e;
+    }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.recipesService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    try {
+      this.logger.verbose('findAll');
+      const response = await this.recipesService.findOne(+id);
+      this.logger.log({ response });
+      return response;
+    } catch (e) {
+      this.logger.error(e.message || e.stack || e);
+      throw e;
+    }
   }
 
   @Post()
   @UseGuards(AuthGuard('jwt'))
-  create(@Body() createRecipeDto: CreateRecipeDto, @User() user: IUser) {
-    return this.recipesService.create(createRecipeDto, user);
+  async create(@Body() createRecipeDto: CreateRecipeDto, @User() user: IUser) {
+    try {
+      this.logger.verbose('findAll');
+      const response = await this.recipesService.create(createRecipeDto, user);
+      this.logger.log({ response });
+      return response;
+    } catch (e) {
+      this.logger.error(e.message || e.stack || e);
+      throw e;
+    }
   }
 
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
-  update(@Param('id') id: string, @Body() updateRecipeDto: UpdateRecipeDto, @User() user: IUser) {
-    return this.recipesService.update(+id, updateRecipeDto, user);
+  async update(@Param('id') id: string, @Body() updateRecipeDto: UpdateRecipeDto, @User() user: IUser) {
+    try {
+      this.logger.verbose('findAll');
+      const response = await this.recipesService.update(+id, updateRecipeDto, user);
+      this.logger.log({ response });
+      return response;
+    } catch (e) {
+      this.logger.error(e.message || e.stack || e);
+      throw e;
+    }
   }
 
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
-  remove(@Param('id') id: string, @User() user: IUser) {
-    return this.recipesService.remove(+id, user);
+  async remove(@Param('id') id: string, @User() user: IUser) {
+    try {
+      this.logger.verbose('findAll');
+      const response = await this.recipesService.remove(+id, user);
+      this.logger.log({ response });
+      return response;
+    } catch (e) {
+      this.logger.error(e.message || e.stack || e);
+      throw e;
+    }
   }
 }
