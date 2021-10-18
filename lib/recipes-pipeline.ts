@@ -96,7 +96,7 @@ export class RecipesPipeline extends Construct {
     const infrastructureProjectId = `${this.id}-infrastructure-project`;
     const infrastructureProject = new PipelineProject(this, infrastructureProjectId, projectConfig);
 
-    const infrastructureActionId = `${this.id}-infrastructure-action`;
+    const infrastructureActionId = `infrastructure-action`;
     this.infrastructureAction = new CodeBuildAction({
       actionName: pascalCase(infrastructureActionId),
       input: this.sourceArtifact,
@@ -131,7 +131,7 @@ export class RecipesPipeline extends Construct {
       })
     );
 
-    const apiActionId = `${this.id}-build-api-action`;
+    const apiActionId = `build-api-action`;
     this.apiAction = new CodeBuildAction({
       actionName: pascalCase(apiActionId),
       input: this.sourceArtifact,
@@ -152,7 +152,7 @@ export class RecipesPipeline extends Construct {
     const migrationProjectId = `${this.id}-migration-project`;
     const migrationProject = new PipelineProject(this, migrationProjectId, projectConfig);
 
-    const migrationActionId = `${this.id}-migration-action`;
+    const migrationActionId = `migration-action`;
     this.migrationAction = new CodeBuildAction({
       actionName: pascalCase(migrationActionId),
       input: this.sourceArtifact,
@@ -161,7 +161,7 @@ export class RecipesPipeline extends Construct {
   }
 
   buildDeployApiAction() {
-    const deployApiActionId = `${this.id}-deploy-api-action`;
+    const deployApiActionId = `deploy-api-action`;
     this.deployApiAction = new EcsDeployAction({
       actionName: pascalCase(deployApiActionId),
       service: this.props.service.service.service,
