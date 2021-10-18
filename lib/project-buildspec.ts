@@ -118,7 +118,7 @@ export const apiProjectConfig = ({
           'docker push $ECR_REPO_URI:$TAG',
           'docker push $ECR_REPO_URI:latest',
           `echo "Saving new imagedefinitions.json as build artifact..."`,
-          `printf '[{"name": "${id}", "imageUri": "%s"}]' $ECR_REPO_URI:$TAG > imagedefinitions.json`,
+          `printf '[{"name": "${serviceName}", "imageUri": "%s"}]' $ECR_REPO_URI:$TAG > imagedefinitions.json`,
           'cat imagedefinitions.json',
           'echo Build completed on `date`',
         ],
