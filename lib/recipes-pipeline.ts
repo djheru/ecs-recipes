@@ -175,11 +175,11 @@ export class RecipesPipeline extends Construct {
       restartExecutionOnUpdate: true,
       stages: [
         {
-          stageName: 'Source',
+          stageName: 'CheckoutSource',
           actions: [this.sourceAction],
         },
         {
-          stageName: 'Infrastructure',
+          stageName: 'DeployInfrastructure',
           actions: [this.infrastructureAction],
         },
         {
