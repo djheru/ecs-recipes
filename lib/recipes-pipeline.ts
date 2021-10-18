@@ -107,7 +107,7 @@ export class RecipesPipeline extends Construct {
     const projectConfig = apiProjectConfig({
       id: this.id,
       environmentName: this.props.environmentName,
-      stackName: Stack.of(this).stackName,
+      serviceName: this.props.service.service.serviceName,
       clusterName: this.props.cluster.clusterName,
       repositoryName: this.props.repository.repositoryName,
       repositoryUri: this.props.repository.repositoryUri,

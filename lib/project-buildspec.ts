@@ -62,8 +62,8 @@ export interface ApiProjectConfigParams {
   environmentName: Environment;
   repositoryName: string;
   repositoryUri: string;
+  serviceName: string;
   sourcePath: string;
-  stackName: string;
 }
 
 export const apiProjectConfig = ({
@@ -71,6 +71,7 @@ export const apiProjectConfig = ({
   id,
   repositoryName,
   repositoryUri,
+  serviceName,
   sourcePath,
 }: ApiProjectConfigParams) => ({
   projectName: pascalCase(`${id}-api-build`),
