@@ -25,6 +25,8 @@ import {
 import { ApplicationLoadBalancedFargateService } from '@aws-cdk/aws-ecs-patterns';
 import { Role } from '@aws-cdk/aws-iam';
 import { snakeCase } from 'snake-case';
+import { EcsService, EcsServiceProps } from './ecs-service';
+import { RecipesPipeline } from './recipes-pipeline';
 
 export type Environment = 'dev' | 'prod' | 'staging' | 'test' | string;
 
@@ -58,8 +60,11 @@ export class RecipesStack extends Stack {
   public databaseProxyEndpoint: string;
 
   // Service
-  public service: ApplicationLoadBalancedFargateService;
   public ecsTaskRole: Role;
+  public ecsService: EcsService;
+
+  // CICD Pipeline
+  public recipesPipeline: RecipesPipeline;
 
   constructor(scope: Construct, id: string, private readonly props: RecipesStackProps) {
     super(scope, id, props);
@@ -218,5 +223,35 @@ export class RecipesStack extends Stack {
       PGHOST: EcsSecret.fromSecretsManager(this.databaseCredentialsSecret, 'host'),
       PGPORT: EcsSecret.fromSecretsManager(this.databaseCredentialsSecret, 'port'),
     };
+
+    const ecsServiceId = `${this.id}-service`;
+    this.ecsService = new EcsService(this, ecsServiceId, {
+      environmentName: this.environmentName,
+      hostedZoneDomainName: this.hostedZoneDomainName,
+      securityGroup: this.rdsDbSg,
+      serviceName: this.serviceName,
+      taskEnvironment,
+      taskSecrets,
+      vpc: this.vpc,
+      autoscalingConfig: {
+        maxCapacity: 4,
+        minCapacity: 1,
+        cpuTargetUtilizationPercent: 50,
+        ramTargetUtilizationPercent: 50,
+      },
+    });
+  }
+
+  buildRecipesPipeline() {
+    const recipesPipelineId = `${this.id}-cicd`;
+    this.recipesPipeline = new RecipesPipeline(this, recipesPipelineId, {
+      cluster: this.ecsService.cluster,
+      databaseCredentialsSecretArn: this.databaseCredentialsSecret.secretArn,
+      environmentName: this.environmentName,
+      repository: this.ecsService.ecrRepository,
+      securityGroup: this.rdsDbSg,
+      service: this.ecsService.service,
+      vpc: this.vpc,
+    });
   }
 }

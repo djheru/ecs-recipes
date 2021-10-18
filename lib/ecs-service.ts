@@ -84,17 +84,16 @@ export class EcsService extends Construct {
     this.id = id;
     this.environmentName = environmentName;
     this.hostedZoneDomainName = hostedZoneDomainName;
-
     this.serviceName = serviceName;
+
     this.domainNameBase = `${this.environmentName}.${this.hostedZoneDomainName}`;
     this.domainName = `${this.serviceName}.${this.domainNameBase}`;
 
+    this.vpc = vpc;
     this.securityGroup = securityGroup;
 
     this.taskEnvironment = taskEnvironment;
     this.taskSecrets = taskSecrets;
-
-    this.vpc = vpc;
     this.autoscalingConfig = autoscalingConfig || {};
 
     this.buildResources();
@@ -106,7 +105,7 @@ export class EcsService extends Construct {
     const ecrRepositoryId = `${this.id}-ecr-repository`;
     this.ecrRepository = new EcrRepository(this, ecrRepositoryId, {
       imageScanOnPush: true,
-      repositoryName: `shared-core/${this.serviceName}`,
+      repositoryName: `ecs-recipes/${this.serviceName}`,
       lifecycleRules: [
         {
           description: 'Remove old images',
