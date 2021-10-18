@@ -216,6 +216,8 @@ export class RecipesStack extends Stack {
       ADDRESS: '0.0.0.0',
       PORT: '4000',
       NO_COLOR: 'true',
+      AUTH0_ISSUER_URL: 'https://dev-pdamra.auth0.com/',
+      AUTH0_AUDIENCE: 'https://ecs-recipes/',
     };
     const taskSecrets = {
       PGUSER: EcsSecret.fromSecretsManager(this.databaseCredentialsSecret, 'username'),
