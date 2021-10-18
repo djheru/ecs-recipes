@@ -85,6 +85,7 @@ export class RecipesStack extends Stack {
     this.buildDatabaseCredentialsSecret();
     this.buildDatabaseInstance();
     this.buildEcsService();
+    this.buildRecipesPipeline();
   }
 
   buildVpc() {
