@@ -1,5 +1,5 @@
 ### Build for development
-FROM node:lts as development
+FROM node:stretch-slim as development
 ENV NODE_ENV=development
 WORKDIR /usr/src/app
 # Install development packages so we can build and test
@@ -13,7 +13,7 @@ RUN yarn build
 # -----------------------------------------------------------------------
 
 ### Build for test
-FROM node:lts as test
+FROM node:stretch-slim as test
 ARG NODE_ENV=test
 ENV NODE_ENV=${NODE_ENV}
 WORKDIR /usr/src/app
@@ -24,7 +24,7 @@ RUN npm run test --passWithNoTests
 # -----------------------------------------------------------------------
 
 ### Build for production
-FROM node:lts as production
+FROM node:stretch-slim as production
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 WORKDIR /usr/src/app
