@@ -41,7 +41,7 @@ export const infrastructureProjectConfig = ({
           'echo Build started at `date`',
           `echo Beginning infrastructure build operations for "${id}"`,
           'yarn install --silent',
-          `yarn global add typescript aws-cdk@${CDK_VERSION}`,
+          `yarn global add typescript aws-cdk@${CDK_VERSION} --silent`,
         ],
       },
       build: { commands: ['yarn build'] },
@@ -94,7 +94,7 @@ export const apiProjectConfig = ({
         commands: [
           'echo Build started at `date`',
           `cd ${sourcePath}`,
-          'yarn global add @nestjs/cli typeorm',
+          'yarn global add @nestjs/cli typeorm --silent',
           'yarn install --silent',
           'export TAG=${CODEBUILD_RESOLVED_SOURCE_VERSION:0:8}',
           `echo Beginning build operations for "${repositoryName}"`,
