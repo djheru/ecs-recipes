@@ -251,7 +251,7 @@ export class RecipesStack extends Stack {
       environmentName: this.environmentName,
       repository: this.ecsService.ecrRepository,
       securityGroup: this.rdsDbSg,
-      service: this.ecsService.service,
+      service: this.ecsService,
       vpc: this.vpc,
     });
   }

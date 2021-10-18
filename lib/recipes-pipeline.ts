@@ -8,6 +8,7 @@ import { ApplicationLoadBalancedFargateService } from '@aws-cdk/aws-ecs-patterns
 import { ManagedPolicy, PolicyStatement, Role, ServicePrincipal } from '@aws-cdk/aws-iam';
 import { Construct, SecretValue, Stack } from '@aws-cdk/core';
 import { pascalCase } from 'pascal-case';
+import { EcsService } from './ecs-service';
 import { apiProjectConfig, infrastructureProjectConfig, migrationProjectConfig } from './project-buildspec';
 import { Environment } from './recipes-stack';
 
@@ -17,7 +18,7 @@ export interface RecipesPipelineProps {
   environmentName: Environment;
   repository: IRepository;
   securityGroup: ISecurityGroup;
-  service: ApplicationLoadBalancedFargateService;
+  service: EcsService;
   vpc: IVpc;
 }
 
@@ -107,7 +108,7 @@ export class RecipesPipeline extends Construct {
     const projectConfig = apiProjectConfig({
       id: this.id,
       environmentName: this.props.environmentName,
-      serviceName: this.props.service.service.serviceName,
+      serviceName: this.props.service.id,
       clusterName: this.props.cluster.clusterName,
       repositoryName: this.props.repository.repositoryName,
       repositoryUri: this.props.repository.repositoryUri,
@@ -163,7 +164,7 @@ export class RecipesPipeline extends Construct {
     const deployApiActionId = `${this.id}-deploy-api-action`;
     this.deployApiAction = new EcsDeployAction({
       actionName: pascalCase(deployApiActionId),
-      service: this.props.service.service,
+      service: this.props.service.service.service,
       imageFile: new ArtifactPath(this.buildArtifact, 'imagedefinitions.json'),
     });
   }
