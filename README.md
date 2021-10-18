@@ -21,9 +21,9 @@ aws ecr get-login-password \
     --password-stdin \
     205375198116.dkr.ecr.us-east-1.amazonaws.com
 
-docker build -t ecs-recipes/recipes .
+docker build -t ecs-recipes-pdamra/recipes .
 
-docker tag ecs-recipes/recipes:latest 205375198116.dkr.ecr.us-east-1.amazonaws.com/ecs-recipes/recipes:latest
+docker tag ecs-recipes-pdamra/recipes:latest 205375198116.dkr.ecr.us-east-1.amazonaws.com/ecs-recipes-pdamra/recipes:latest
 
-docker push 205375198116.dkr.ecr.us-east-1.amazonaws.com/ecs-recipes/recipes:latest
+docker push 205375198116.dkr.ecr.us-east-1.amazonaws.com/ecs-recipes-pdamra/recipes:latest
 ```

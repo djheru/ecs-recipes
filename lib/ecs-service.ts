@@ -11,7 +11,7 @@ import {
 } from '@aws-cdk/aws-iam';
 import { HostedZone, IHostedZone } from '@aws-cdk/aws-route53';
 import { CfnOutput, Construct } from '@aws-cdk/core';
-import { Repository as EcrRepository } from '@aws-cdk/aws-ecr';
+import { Repository as EcrRepository, Repository } from '@aws-cdk/aws-ecr';
 import { Environment } from './recipes-stack';
 import { Project } from '@aws-cdk/aws-codebuild';
 import { Artifact, Pipeline } from '@aws-cdk/aws-codepipeline';
@@ -114,7 +114,7 @@ export class EcsService extends Construct {
     const ecrRepositoryId = `${this.id}-ecr-repository`;
     this.ecrRepository = new EcrRepository(this, ecrRepositoryId, {
       imageScanOnPush: true,
-      repositoryName: `ecs-recipes/${this.serviceName}`,
+      repositoryName: `ecs-recipes-${this.environmentName}/${this.serviceName}`,
       lifecycleRules: [
         {
           description: 'Remove old images',
@@ -203,7 +203,15 @@ export class EcsService extends Construct {
       taskImageOptions: {
         containerName: this.id,
         containerPort: this.taskEnvironment.PORT ? parseInt(this.taskEnvironment.PORT) : 4000,
-        image: ContainerImage.fromEcrRepository(this.ecrRepository),
+        image: ContainerImage.fromEcrRepository(
+          // Default (environment UNaware repo)
+          // Subsequent builds go to the environment aware repo
+          Repository.fromRepositoryName(
+            this,
+            `${this.id}-ecr-base-repository`,
+            `ecs-recipes/${this.serviceName}`
+          )
+        ),
         taskRole: this.taskRole,
         environment: this.taskEnvironment,
         secrets: this.taskSecrets,
