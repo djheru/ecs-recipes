@@ -152,7 +152,7 @@ export class RecipesPipeline extends Construct {
     const migrationProjectId = `${this.id}-migration-project`;
     const migrationProject = new PipelineProject(this, migrationProjectId, projectConfig);
 
-    const migrationActionId = `migration-action`;
+    const migrationActionId = `run-migrations-action`;
     this.migrationAction = new CodeBuildAction({
       actionName: pascalCase(migrationActionId),
       input: this.sourceArtifact,
