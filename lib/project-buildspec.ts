@@ -19,7 +19,6 @@ export const infrastructureProjectConfig = ({
   role,
 }: InfrastructureProjectConfigParams) => ({
   projectName: pascalCase(`${id}-infrastructure-build`),
-  concurrentBuildLimit: 1,
   description: 'CodeBuild project to perform CDK deployments on the Application DB stack',
   environment: {
     buildImage: LinuxBuildImage.AMAZON_LINUX_2_3,
