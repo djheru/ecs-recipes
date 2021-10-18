@@ -183,11 +183,11 @@ export class RecipesPipeline extends Construct {
           actions: [this.infrastructureAction],
         },
         {
-          stageName: 'Build API',
+          stageName: 'BuildAPI',
           actions: [this.apiAction],
         },
         {
-          stageName: 'Deploy API',
+          stageName: 'DeployAPI',
           actions: [this.deployApiAction, this.migrationAction],
         },
       ],

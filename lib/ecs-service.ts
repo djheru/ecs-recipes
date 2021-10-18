@@ -99,7 +99,16 @@ export class EcsService extends Construct {
     this.buildResources();
   }
 
-  buildResources() {}
+  buildResources() {
+    this.buildEcrRepository();
+    this.buildRoles();
+    this.loadHostedZone();
+    this.createCertificate();
+    this.buildCluster();
+    this.buildExecutionRolePolicyStatement();
+    this.buildEcsService();
+    this.configureServiceAutoscaling();
+  }
 
   buildEcrRepository() {
     const ecrRepositoryId = `${this.id}-ecr-repository`;
@@ -135,16 +144,17 @@ export class EcsService extends Construct {
       ],
     });
   }
+
   private loadHostedZone() {
     const hostedZoneId = `${this.id}-hostedZone`;
     this.hostedZone = HostedZone.fromLookup(this, hostedZoneId, {
-      domainName: this.domainNameBase,
+      domainName: this.hostedZoneDomainName,
       privateZone: false,
     });
   }
 
   private createCertificate() {
-    const certificateId = `${this.id}-appsync-certificate`;
+    const certificateId = `${this.id}-certificate`;
     this.certificate = new Certificate(this, certificateId, {
       domainName: this.domainName,
       validation: CertificateValidation.fromDns(this.hostedZone),

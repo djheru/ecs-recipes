@@ -6,5 +6,9 @@
     "us-east-1d",
     "us-east-1e",
     "us-east-1f"
-  ]
+  ],
+  "hosted-zone:account=205375198116:domainName=online-cuisine.com:privateZone=false:region=us-east-1": {
+    "Id": "/hostedzone/Z058402024XBPEPOH191F",
+    "Name": "online-cuisine.com."
+  }
 }
