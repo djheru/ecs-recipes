@@ -1,19 +1,10 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { RecipesService } from './recipes.service';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { User } from 'src/auth/user.decorator';
 import { IUser } from 'src/auth/user.interface';
+import { User } from 'src/auth/user.decorator';
 
 @Controller('recipes')
 export class RecipesController {
@@ -37,11 +28,7 @@ export class RecipesController {
 
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
-  update(
-    @Param('id') id: string,
-    @Body() updateRecipeDto: UpdateRecipeDto,
-    @User() user: IUser,
-  ) {
+  update(@Param('id') id: string, @Body() updateRecipeDto: UpdateRecipeDto, @User() user: IUser) {
     return this.recipesService.update(+id, updateRecipeDto, user);
   }
 

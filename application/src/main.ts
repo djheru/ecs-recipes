@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { LoggerService } from 'src/logger/logger.service';
@@ -17,7 +18,7 @@ async function bootstrap() {
       transformOptions: {
         enableImplicitConversion: true, // Automatically convert types with class-transformer
       },
-    }),
+    })
   );
   appModuleDocumentation(app);
   app.enableCors();

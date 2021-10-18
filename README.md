@@ -14,7 +14,12 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 - `cdk synth` emits the synthesized CloudFormation template
 
 ```
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 205375198116.dkr.ecr.us-east-1.amazonaws.com
+aws ecr get-login-password \
+  --region us-east-1 | \
+  docker login \
+    --username AWS \
+    --password-stdin \
+    205375198116.dkr.ecr.us-east-1.amazonaws.com
 
 docker build -t ecs-recipes/recipes .
 
