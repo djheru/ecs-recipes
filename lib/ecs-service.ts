@@ -10,7 +10,7 @@ import {
   ServicePrincipal,
 } from '@aws-cdk/aws-iam';
 import { HostedZone, IHostedZone } from '@aws-cdk/aws-route53';
-import { CfnOutput, Construct } from '@aws-cdk/core';
+import { CfnOutput, Construct, RemovalPolicy } from '@aws-cdk/core';
 import { Repository as EcrRepository, Repository } from '@aws-cdk/aws-ecr';
 import { Environment } from './recipes-stack';
 import { Project } from '@aws-cdk/aws-codebuild';
@@ -121,6 +121,7 @@ export class EcsService extends Construct {
           maxImageCount: 50,
         },
       ],
+      removalPolicy: RemovalPolicy.DESTROY,
     });
     const ecrRepositoryOutputId = `ecr-repo-uri`;
     new CfnOutput(this, ecrRepositoryOutputId, {
